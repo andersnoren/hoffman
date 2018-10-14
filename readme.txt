@@ -86,6 +86,7 @@ Version 1.23 (2018-10-14)
 - Updated theme description
 - Improved compatibility with < PHP 5.5
 - Replaced minified flexslider with non-minified version
+- Fixed the archive template date output
 
 Version 1.22 (2018-05-29)
 -------------------------
