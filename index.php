@@ -7,7 +7,7 @@
 		<div class="posts" id="posts">
 	
 			<?php
-			$paged = get_query_var( 'paged' ) ?: 1;
+			$paged = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
 			$total_post_count = wp_count_posts();
 			$published_post_count = $total_post_count->publish;
 			$total_pages = ceil( $published_post_count / $posts_per_page );
@@ -16,7 +16,7 @@
 			
 				<div class="page-title section small-padding">
 				
-					<h4 class="section-inner"><?php printf( __( 'Page %s of %s', 'hoffman' ), $paged, $wp_query->max_num_pages ); ?></h4>
+					<h4 class="section-inner"><?php printf( __( 'Page %1$s of %2$s', 'hoffman' ), $paged, $wp_query->max_num_pages ); ?></h4>
 					
 				</div>
 				

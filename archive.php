@@ -32,11 +32,11 @@
 					_e( 'Archive', 'hoffman' ); 
 				endif;
 
-				$paged = get_query_var( 'paged' ) ?: 1;
+				$paged = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
 				
 				if ( 1 < $wp_query->max_num_pages ) : ?>
 				
-					<span><?php printf( __( '(page %s of %s)', 'hoffman' ), $paged, $wp_query->max_num_pages ); ?></span>
+					<span><?php printf( __( '(page %1$s of %2$s)', 'hoffman' ), $paged, $wp_query->max_num_pages ); ?></span>
 				
 				<?php endif; ?>
 

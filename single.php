@@ -22,11 +22,15 @@
 					
 				<div class="featured-media">
 		
-					<?php the_post_thumbnail( 'post-image' ); ?>
+					<?php 
 					
-					<?php if ( ! empty( get_post( get_post_thumbnail_id() )->post_excerpt ) ) : ?>
+					the_post_thumbnail( 'post-image' );
+
+					$image_caption = get_post( get_post_thumbnail_id() )->post_excerpt;
+					
+					if ( $image_caption ) : ?>
 											
-						<p class="caption"><?php echo get_post( get_post_thumbnail_id() )->post_excerpt; ?></p>
+						<p class="caption"><?php echo $image_caption; ?></p>
 						
 					<?php endif; ?>
 					

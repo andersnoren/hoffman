@@ -3,8 +3,8 @@
 	Theme Name: Hoffman
     Text Domain: hoffman
 	Theme URI: http://www.andersnoren.se/teman/hoffman-wordpress-theme/
-	Version: 1.20
-	Description: Hoffman is a beautifully minimal, responsive and retina-ready theme for bloggers. It features a social icon menu, Jetpack support for infinite scroll, five custom widgets, two page templates, editor styling, translation-ready code, custom accent color support, custom background support, support for the gallery post format and much more. Included translations: Swedish/svenska. Demo: http://www.andersnoren.se/themes/hoffman/
+	Version: 1.23
+	Description: Hoffman is a beautifully minimal, responsive and retina-ready theme for bloggers. It features a social icon menu, Jetpack support for infinite scroll, Gutenberg support, three custom widgets, two page templates, editor styling, translation-ready code, custom accent color support, custom background support, support for the gallery post format, and much more. Demo: http://www.andersnoren.se/themes/hoffman/
 	Tags: blog, one-column, custom-colors, custom-menu, editor-style, featured-images, footer-widgets, post-formats, sticky-post, theme-options, threaded-comments, translation-ready
 	Author: Anders Norén
 	Author URI: http://www.andersnoren.se
@@ -95,10 +95,9 @@ body {
 	border: none;
 	color: #333;
 	background: #f9f9f9;
-	font-family: 'Raleway', sans-serif;
+	font-family: Raleway, sans-serif;
 	font-size: 18px;
 	-webkit-text-size-adjust: 100%;
-	-webkit-font-smoothing: subpixel-antialiased;
 }
 
 body a {
@@ -112,14 +111,15 @@ body a:hover {
 }
 
 * { 
+		-moz-box-sizing: border-box; 
+		-webkit-box-sizing: border-box; 
 	box-sizing: border-box; 
-	-moz-box-sizing: border-box; 
-	-webkit-box-sizing: border-box; 
 }
 
 img {
-	max-width: 100%;
+	display: block;
 	height: auto;
+	max-width: 100%;
 }
 
 .hidden { display: none; }
@@ -145,10 +145,6 @@ img {
 
 body a,
 .tagcloud a:after {
-	-webkit-transition: all 0.1s ease-in-out;
-	-moz-transition: all 0.1s ease-in-out;
-	-ms-transition: all 0.1s ease-in-out;
-	-o-transition: all 0.1s ease-in-out;
 	transition: all 0.1s ease-in-out;
 }
 
@@ -177,10 +173,6 @@ body a,
 .sticky .is-sticky:after,
 .main-menu ul > .menu-item-has-children::after,
 .main-menu ul > .page_item_has_children::after {
-	-webkit-transition: all 0.2s ease-in-out;
-	-moz-transition: all 0.2s ease-in-out;
-	-ms-transition: all 0.2s ease-in-out;
-	-o-transition: all 0.2s ease-in-out;
 	transition: all 0.2s ease-in-out;
 }
 
@@ -188,10 +180,6 @@ body a,
 .header .blog-description,
 .nav-toggle .bar,
 .nav-toggle p {
-	-webkit-transition: all 0.4s ease-in-out;
-	-moz-transition: all 0.4s ease-in-out;
-	-ms-transition: all 0.4s ease-in-out;
-	-o-transition: all 0.4s ease-in-out;
 	transition: all 0.4s ease-in-out;
 }
 
@@ -779,7 +767,7 @@ body a,
 	display: inline-block;
 	padding: 15px 15px 14px;
 	border: 3px solid #928452;
-	font-family: 'Raleway', sans-serif;
+	font-family: Raleway, sans-serif;
 	font-size: 0.9rem;
 	line-height: 1;
 	font-weight: 700;
@@ -822,7 +810,7 @@ body a,
 	display: inline-block;
 	margin-top: 20px;
 	background: #fafafa;
-	font-family: 'Raleway', sans-serif;
+	font-family: Raleway, sans-serif;
 	font-size: 0.9rem;
 	line-height: 1;
 	font-weight: 600;
@@ -960,21 +948,19 @@ body a,
 
 .post-content h1, .post-content h2, .post-content h3, .post-content h4, .post-content h5, .post-content h6 {
 	margin: 60px 0 30px;
-	font-family: 'Raleway', sans-serif;
+	font-family: Raleway, sans-serif;
+	font-weight: 800;
+	letter-spacing: 1px;
 	line-height: 120%;
 	text-transform: uppercase;
 }
 
 .post-content h1 { 
 	font-size: 1.75em; 
-	font-weight: 800;
-	letter-spacing: 1px;
 }
 
 .post-content h2 { 
 	font-size: 1.5em; 
-	font-weight: 800;
-	letter-spacing: 1px;
 }
 
 .post-content h3 { 
@@ -995,7 +981,6 @@ body a,
 .post-content h6 {
 	font-size: 0.8em;
 	font-weight: 600;
-	letter-spacing: 1px;
 	color: #666;
 	margin-bottom: 20px;
 }
@@ -1012,24 +997,24 @@ body a,
 .post-content blockquote {
 	padding: 30px 30px 30px 90px;
 	background: #F6F6F6;
-	background: rgba(0,0,0,0.05);
+	background: rgba( 0, 0, 0, .05 );
 	position: relative;
 }
 
 .post-content blockquote:before {
+	color: #AAA;
 	content: '”';
 	display: block;
-	width: 90px;
 	font-family: 'Georgia', 'Times New Roman', serif;
 	font-size: 72px;
-	line-height: 72px;
 	font-weight: 700;
-	color: #AAA;
+	line-height: 1;
+	position: absolute;
+		left: 0px;
+		top: 32px;
 	text-align: center;
 	-webkit-font-smoothing: antialiased;
-	position: absolute;
-	top: 32px;
-	left: 0px;
+	width: 90px;
 }
 
 .post-content blockquote p { 
@@ -1038,7 +1023,7 @@ body a,
 }
 
 .post-content cite {
-	font-family: 'Raleway', sans-serif;
+	font-family: Raleway, sans-serif;
 	font-size: 1rem;
 	line-height: 140%;
 	font-weight: 600;
@@ -1101,9 +1086,18 @@ abbr, acronym { cursor: help; }
 	width: 96px;
 	height: 3px;
 	background: #ddd;
-	background: rgba(0,0,0,0.1);
+	background: rgba( 0, 0, 0, 0.1 );
 	margin: 40px auto;
 	border: none;
+}
+
+.post-content hr.is-style-wide,
+.post-content hr.is-style-dots {
+	width: 100%;
+}
+
+.post-content hr.is-style-dots {
+	background: none;
 }
 
 .post-content ul,
@@ -1142,7 +1136,7 @@ abbr, acronym { cursor: help; }
 .post-content address {
 	padding: 3% 3.5%;
 	background: #f1f1f1;
-	font-family: 'Raleway', sans-serif;
+	font-family: Raleway, sans-serif;
 	font-size: 0.85em;
 	line-height: 200%;
 	font-weight: 600;
@@ -1170,18 +1164,46 @@ abbr, acronym { cursor: help; }
 	border-bottom: 1px dashed #ccc; 
 }
 
+p.has-drop-cap:not(:focus):first-letter {
+    font-size: 5.4em;
+	font-weight: 400;
+	transform: translateY( .135em );
+}
+
 
 /* Post Media --------------------------------------- */
 
 
-.wp-caption,
-.post-content img {
+figure {
+	margin: 0;
+}
+
+.wp-caption {
 	max-width: 100%;
+}
+
+.post-content .alignnone,
+.post-content .aligncenter,
+.post-content .alignwide,
+.post-content .alignfull {
+	margin: 2.5em auto;
+}
+
+.post-content .alignfull {
+	margin-left: -250px;
+	max-width: 1200px;
+	width: 1200px;
+}
+
+.post-content .alignwide {
+	margin-left: -125px;
+	max-width: 950px;
+	width: 950px;
 }
 
 .post-content .alignleft,
 .post-content .alignright {
-	margin-bottom: 0.5em;
+	margin-bottom: 1.5em;
 	max-width: 400px;
 }
 
@@ -1215,23 +1237,25 @@ abbr, acronym { cursor: help; }
 }
 
 .post-content .wp-caption-text,
-.post-content .gallery-caption {
-	padding-top: 15px;
+.post-content .gallery-caption,
+.post-content figcaption {
+	color: #999;
 	font-size: 0.8em;
 	font-style: italic;
-	color: #999;
+	margin: 0;
+	padding-top: 15px;
 	text-align: center;
 }
 
 .post-content .gallery-caption {
 	font-size: 16px;
-	line-height: 24px;
+	line-height: 1.5;
 }
 
 /* jetpack tiled gallery */
 
 .tiled-gallery .tiled-gallery-caption {
-	font-family: 'Raleway', sans-serif;
+	font-family: Raleway, sans-serif;
 	text-align: center;
 	font-weight: 700;
 	text-transform: uppercase;
@@ -1247,7 +1271,8 @@ abbr, acronym { cursor: help; }
 	border-collapse: collapse;
     border-spacing: 0;
     empty-cells: show;
-    font-size: 0.9em;
+	font-size: 0.9em;
+	margin: 2em auto;
     width: 100%;
 }
 
@@ -1282,7 +1307,7 @@ abbr, acronym { cursor: help; }
 }
 
 .post-content th {
-	font-family: 'Raleway', sans-serif;
+	font-family: Raleway, sans-serif;
 	font-size: 0.95rem;
 	font-weight: 700;
 	text-transform: uppercase;
@@ -1305,7 +1330,7 @@ abbr, acronym { cursor: help; }
 }
 
 .post-content fieldset legend {
-	font-family: 'Raleway', sans-serif;
+	font-family: Raleway, sans-serif;
 	font-size: 0.9rem;
 	line-height: 1;
 	font-weight: 600;
@@ -1318,7 +1343,7 @@ abbr, acronym { cursor: help; }
 }
 
 .post-content label {
-	font-family: 'Raleway', sans-serif;
+	font-family: Raleway, sans-serif;
 	font-size: 0.9rem;
 	font-weight: 600;
 	text-transform: uppercase;
@@ -1326,7 +1351,9 @@ abbr, acronym { cursor: help; }
 	color: #666;
 }
 
-.post-content input { font-family: 'Raleway', sans-serif; }
+.post-content input { 
+	font-family: Raleway, sans-serif; 
+}
 
 .post-content input[type="file"] {
 	padding: 12px;
@@ -1342,16 +1369,12 @@ abbr, acronym { cursor: help; }
 .post-content textarea {
 	width: 100%;
 	padding: 20px;
-	font-family: 'Raleway', sans-serif;
+	font-family: Raleway, sans-serif;
 	font-size: 0.85em;
 	border: none;
 	color: #444;
 	background: #FAFAFA;
 	border: 2px solid #ddd;
-        -webkit-transition: border 0.1s ease-in-out;
-        -moz-transition: border 0.1s ease-in-out;
-        -ms-transition: border 0.1s ease-in-out;
-        -o-transition: border 0.1s ease-in-out;
 	transition: border 0.1s ease-in-out;
 	-webkit-appearance: none;
 	border-radius: 0;
@@ -1401,6 +1424,203 @@ abbr, acronym { cursor: help; }
 	cursor: pointer;
 	background: #928452;
 	color: #fff;
+}
+
+
+/* Gutenberg Accent Colors --------------------------------------- */
+
+.post-content .has-background { background-color: #272F38; }
+
+.post-content .has-accent-color { color: #928452; }
+.post-content .has-accent-background-color { background-color: #928452; }
+
+.post-content .has-black-color { color: #272F38; }
+.post-content .has-black-background-color { background-color: #272F38; }
+
+.post-content .has-dark-gray-color { color: #444; }
+.post-content .has-dark-gray-background-color { background-color: #444; }
+
+.post-content .has-medium-gray-color { color: #666; }
+.post-content .has-medium-gray-background-color { background-color: #666; }
+
+.post-content .has-light-gray-color { color: #888; }
+.post-content .has-light-gray-background-color { background-color: #888; }
+
+.post-content .has-white-color { color: #fff; }
+.post-content .has-white-background-color { background-color: #fff; }
+
+
+/* Gutenberg Font Sizes --------------------------------------- */
+
+.post-content .has-small-font-size { font-size: .842em; }
+.post-content .has-regular-font-size { font-size: 1em; }
+
+.post-content .has-large-font-size,
+.post-content .has-larger-font-size {
+	line-height: 1.45;
+}
+
+.post-content .has-large-font-size { font-size: 1.2em; }
+.post-content .has-larger-font-size { font-size: 1.4em; }
+
+
+/* Block: Button --------------------------------------- */
+
+.post-content .wp-block-file__button,
+.post-content .wp-block-button__link {
+	border-radius: 4px;
+	font-family: Raleway, sans-serif;
+	font-weight: 700;
+	padding: .8em 1.4em;
+}
+
+.post-content .wp-block-button__link {
+	font-size: 16px;
+}
+
+.post-content .wp-block-file a {
+	color: inherit;
+}
+
+.post-content a.wp-block-file__button {
+	color: #fff;
+}
+
+.post-content .wp-block-file__button:hover,
+.post-content .wp-block-button__link:hover {
+	opacity: .85;
+	text-decoration: none;
+}
+
+
+/* Block: Quote --------------------------------------- */
+
+.post-content .wp-block-quote.is-large, 
+.post-content .wp-block-quote.is-style-large {
+	margin-bottom: 1.25em;
+	padding: 30px 30px 30px 90px;
+}
+
+.post-content blockquote p:last-child {
+	margin-bottom: 0;
+}
+
+.wp-block-quote.is-large p, 
+.wp-block-quote.is-style-large p {
+	font-size: 1.25em;
+	line-height: 1.5;
+}
+
+.wp-block-quote.is-large cite, 
+.wp-block-quote.is-style-large cite {
+	display: block;
+	font-size: .8em;
+	text-align: left;
+}
+
+
+/* Block: Pullquote --------------------------------------- */
+
+.wp-block-pullquote,
+.wp-block-pullquote blockquote {
+	background: none;
+	border: none;
+	padding: 0;
+}
+
+.wp-block-pullquote blockquote:before {
+	content: none;
+}
+
+.wp-block-pullquote blockquote p,
+.wp-block-pullquote.alignleft blockquote p,
+.wp-block-pullquote.alignright blockquote p {
+	font-size: 1.25em;
+	margin-bottom: 1em;
+}
+
+.wp-block-pullquote.alignleft blockquote p,
+.wp-block-pullquote.alignright blockquote p {
+	line-height: 1.33;
+}
+
+.wp-block-pullquote cite {
+	color: #666;
+}
+
+
+/* Block: Gallery --------------------------------------- */
+
+.wp-block-gallery .blocks-gallery-image figcaption, 
+.wp-block-gallery .blocks-gallery-item figcaption {
+	margin: 0;
+	padding-bottom: 10px;
+}
+
+.post-content .wp-block-gallery.alignfull {
+	padding: 0 8px;
+}
+
+.post-content ul.wp-block-gallery:not(.alignfull):not(.alignwide) {
+	margin-left: 0;
+}
+
+
+/* Block: Image --------------------------------------- */
+
+.wp-block-image .aligncenter > figcaption, 
+.wp-block-image .alignleft > figcaption, 
+.wp-block-image .alignright > figcaption, 
+.wp-block-image.is-resized > figcaption {
+	display: block;
+}
+
+/* Block: Cover Image --------------------------------------- */
+
+.wp-block-cover-image.alignfull {
+	min-height: 75vh;
+}
+
+.wp-block-cover-image p {
+	font-weight: 400;
+}
+
+
+/* Block: Column --------------------------------------- */
+
+.wp-block-column {
+	padding: 0 5px;
+}
+
+
+/* Block: Audio --------------------------------------- */
+
+.wp-block-audio audio {
+	width: 100%;
+}
+
+
+/* Block: File --------------------------------------- */
+
+.post-content .wp-block-file {
+	align-items: center;
+	background: rgba( 0, 0, 0, 0.05 );
+	border-radius: 4px;
+	display: flex;
+	font-family: Raleway, sans-serif;
+	justify-content: space-between;
+	margin: 30px 0;
+	padding: 20px;
+}
+
+.post-content .wp-block-file a:not(.wp-block-file__button) {
+	font-weight: 400;
+	text-decoration: none;
+}
+
+.post-content .wp-block-file__button {
+	font-weight: 700;
+	flex-shrink: 0;
 }
 
 
@@ -1877,12 +2097,17 @@ div.comment {
 	border-radius: 3px;
 }
 
+.comment-form p.comment-notes {
+	display: none;
+}
+
 .comment-form-comment + .comment-form-author,
 .comment-form-comment + .comment-form-author + .comment-form-email {
     margin-top: 25px;
 }
 
 .comment-form p + p { margin-top: 25px; }
+.comment-form p.comment-notes + p { margin-top: 0; }
 
 .comment-form input[type="text"],
 .comment-form input[type="email"],
@@ -1893,7 +2118,7 @@ div.comment {
 	border: none;
 	margin: 0;
 	background: none;
-	font-family: 'Raleway', sans-serif;
+	font-family: Raleway, sans-serif;
 	font-size: 1em;
 	-webkit-appearance: none;
 	border-radius: 0;
@@ -1907,6 +2132,14 @@ div.comment {
 	font-weight: 700;
 	color: #666;
 	margin-bottom: 10px;
+}
+
+.comment-form input[type="checkbox"] + label {
+	display: inline;
+	font-weight: 400;
+	letter-spacing: 0;
+	margin: 0 0 0 5px;
+	text-transform: none;
 }
 
 .comment-form .required { 
@@ -1959,7 +2192,7 @@ div.comment {
 	padding: 14px 15px 13px;
 	background: #fff;
 	border: 2px solid #928452;
-	font-family: 'Raleway', sans-serif;
+	font-family: Raleway, sans-serif;
 	font-size: 0.9rem;
 	font-weight: 700;
 	text-transform: uppercase;
@@ -2077,7 +2310,7 @@ div.comment {
 
 .posts-archive-list span {
 	margin-left: 5px;
-	font-family: 'Raleway', sans-serif;
+	font-family: Raleway, sans-serif;
 	font-size: 0.7em;
 	font-weight: 600;
 	text-transform: uppercase;
@@ -2098,7 +2331,7 @@ div.comment {
 .widget + .widget { margin-top: 40px; }
 
 .widget-title {
-	font-family: 'Raleway', sans-serif;
+	font-family: Raleway, sans-serif;
 	font-size: 0.95em;
 	font-weight: 700;
 	text-transform: uppercase;
@@ -2107,7 +2340,7 @@ div.comment {
 }
 
 .widget-content { 
-	font-family: 'Raleway', sans-serif;
+	font-family: Raleway, sans-serif;
 	font-size: 0.9rem; 
 	color: #555;
 }
@@ -2153,7 +2386,7 @@ div.comment {
 #wp-calendar {
 	width: 100%;
 	max-width: 100%;
-	font-family: 'Raleway', sans-serif;
+	font-family: Raleway, sans-serif;
 	color: #888;
 	text-align: center;
 }
@@ -2228,7 +2461,7 @@ div.comment {
 	padding: 8px 8px;
 	background: #eee;
 	border-radius: 3px;
-	font-family: 'Raleway', sans-serif;
+	font-family: Raleway, sans-serif;
 	line-height: 1;
 	margin: 0 5px 5px 0;
 	color: #666;
@@ -2300,7 +2533,7 @@ div.comment {
 	margin: 0;
 	border: none;
 	background: #eee;
-	font-family: 'Raleway', sans-serif;
+	font-family: Raleway, sans-serif;
 	font-size: 1rem;
 	color: #444;
 	-webkit-appearance: none;
@@ -2515,7 +2748,7 @@ img#wpstats { display: none !important; } /* silly wp stats */
 /* -------------------------------------------------------------------------------- */
 
 
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
+@media ( -webkit-min-device-pixel-ratio: 2 ), ( min-resolution: 192dpi ) { 
 
 	/* 2X images */
 
@@ -2525,7 +2758,28 @@ img#wpstats { display: none !important; } /* silly wp stats */
 }
 
 
-@media (max-width: 1100px) {
+@media ( max-width: 1266px ) {
+
+
+	/* Post Content --------------------------------------- */
+
+	.post-content .alignfull {
+		margin-left: calc( ( 95vw - 700px ) / -2 );
+		max-width: 95vw;
+		width: 95vw;
+	}
+
+	.post-content .alignwide {
+		margin-left: calc( ( 95vw - 700px ) / -4 );
+		max-width: calc( 95vw - ( ( 95vw - 700px ) / 2 ) );
+		width: calc( 95vw - ( ( 95vw - 700px ) / 2 ) );
+	}
+
+
+}
+
+
+@media ( max-width: 1100px ) {
 	
 	
 	/* Navigation --------------------------------------- */
@@ -2560,6 +2814,25 @@ img#wpstats { display: none !important; } /* silly wp stats */
 	
 	.post-content .alignleft { margin-left: auto; }
 	.post-content .alignright { margin-right: auto; }
+
+
+}
+
+
+@media (max-width: 818px) {
+
+
+	/* Post Content --------------------------------------- */
+
+	.post-content .alignfull {
+		margin-left: calc( ( 95vw - ( 95vw * .9 ) ) / -2 );
+	}
+
+	.post-content .alignwide {
+		margin-left: calc( ( 95vw - ( 95vw * .9 ) ) / -4 );
+		max-width: calc( 95vw - ( ( 95vw - ( 95vw * .9 ) ) / 2 ) );
+		width: calc( 95vw - ( ( 95vw - ( 95vw * .9 ) ) / 2 ) );
+	}
 
 
 }
@@ -2699,7 +2972,6 @@ img#wpstats { display: none !important; } /* silly wp stats */
 	
 	/* Blog --------------------------------------- */
 	
-	
 	.post-inner { padding: 45px 0; }
 	
 	.sticky .is-sticky {
@@ -2759,7 +3031,6 @@ img#wpstats { display: none !important; } /* silly wp stats */
 	
 	/* Post formats --------------------------------------- */
 	
-	
 	/* format gallery */
 	
 	.flex-direction-nav { margin-top: -16px; }
@@ -2778,7 +3049,6 @@ img#wpstats { display: none !important; } /* silly wp stats */
 
 	/* Post content --------------------------------------- */
 	
-	
 	.post-content h1, .post-content h2, .post-content h3, .post-content h4, .post-content h5, .post-content h6 {
 		margin: 40px 0 20px;
 	}
@@ -2793,6 +3063,18 @@ img#wpstats { display: none !important; } /* silly wp stats */
 	.post-content blockquote cite { 
 		margin-top: 20px; 
 		font-size: 0.9rem; 
+	}
+
+	.post-content .alignfull {
+		margin-left: -5vw;
+		max-width: 100vw;
+		width: 100vw;
+	}
+
+	.post-content .alignwide {
+		margin-left: -2.5vw;
+		max-width: 95vw;
+		width: 95vw;
 	}
 	
 	
@@ -2933,16 +3215,14 @@ img#wpstats { display: none !important; } /* silly wp stats */
 	.post-content .alignleft,
 	.post-content .alignright {
 		float: none;
-		display: block;
+		margin: 2em auto;
 		max-width: 100%;
-		margin: 1.5em auto 1.25em;
 	}
 	
 	.post-content .alignleft img,
 	.post-content .alignright img {
 		display: block;
-		margin-left: auto;
-		margin-right: auto;
+		width: 100%;
 	}
 	
 	/* Respond --------------------------------------- */
@@ -3025,8 +3305,18 @@ img#wpstats { display: none !important; } /* silly wp stats */
 	/* Post content --------------------------------------- */
 	
 	
-	.post-content blockquote { padding: 20px; }
+	.post-content blockquote,
+	.post-content .wp-block-quote.is-large,
+	.post-content .wp-block-quote.is-style-large {
+		padding: 20px; 
+	}
+
 	.post-content blockquote:before { content: none; }
+
+	.post-content .wp-block-pullquote,
+	.post-content .wp-block-pullquote blockquote {
+		padding: 0;
+	}
 	
 	.post-content input[type="text"],
 	.post-content input[type="tel"],

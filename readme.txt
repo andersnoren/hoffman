@@ -75,6 +75,25 @@ Source: http://flexslider.woothemes.com
 
 == Changelog ==
 
+Version 1.23 (2018-10-14)
+-------------------------
+- Updated with Gutenberg support
+	- Gutenberg editor styles
+	- Styling of Gutenberg blocks
+	- Custom Hoffman Gutenberg palette
+	- Custom Hoffman Gutenberg typography styles
+- Added option to disable Google Fonts with a translateable string
+- Updated theme description
+- Improved compatibility with < PHP 5.5
+- Replaced minified flexslider with non-minified version
+
+Version 1.22 (2018-05-29)
+-------------------------
+- Fixed the current post showing up in the recent posts widget
+
+Version 1.21 (2018-05-24)
+-------------------------
+- Fixed output of cookie checkbox in comments
 
 Version 1.20 (2017-12-03)
 -------------------------
