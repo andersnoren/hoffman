@@ -1,10 +1,22 @@
 <div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-	<?php if ( has_post_thumbnail() ) : ?>
+	<?php 
+	
+	$post_format = get_post_format();
+
+	if ( $post_format == 'gallery' ) : ?>
+
+		<div class="featured-media">	
+			
+			<?php hoffman_flexslider( 'post-image' ); ?>
+			
+		</div><!-- .featured-media -->
+
+	<?php elseif ( has_post_thumbnail() ) : ?>
 	
 		<div class="featured-media">	
 			
-			<a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title_attribute(); ?>">
+			<a href="<?php the_permalink(); ?>" rel="bookmark">
 			
 				<?php the_post_thumbnail( 'post-image' ); ?>
 			
@@ -15,9 +27,7 @@
 			$image_caption = get_post( get_post_thumbnail_id() )->post_excerpt;
 			
 			if ( $image_caption ) : ?>
-														
 				<p class="caption"><?php echo $image_caption; ?></p>
-				
 			<?php endif; ?>
 			
 		</div><!-- .featured-media -->
@@ -35,7 +45,7 @@
 			
 			<div class="post-meta top">
 			
-				<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php the_time( get_option( 'date_format' ) ); ?></a>
+				<a href="<?php the_permalink(); ?>"><?php the_time( get_option( 'date_format' ) ); ?></a>
 				
 				<?php 
 				if ( comments_open() ) {
@@ -48,7 +58,7 @@
 				
 			</div>
 			
-		    <h2 class="post-title"><a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
+		    <h2 class="post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 		    	    
 		</div><!-- .post-header -->
 		
