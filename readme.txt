@@ -75,6 +75,10 @@ Source: http://flexslider.woothemes.com
 
 == Changelog ==
 
+Version 1.27 (2019-04-07)
+-------------------------
+- Added the new wp_body_open() function, along with a function_exists check
+
 Version 1.26 (2018-12-28)
 -------------------------
 - Merged archive.php and search.php into index.php
