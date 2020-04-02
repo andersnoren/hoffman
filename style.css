@@ -3,7 +3,7 @@
 	Theme Name: Hoffman
     Text Domain: hoffman
 	Theme URI: https://www.andersnoren.se/teman/hoffman-wordpress-theme/
-	Version: 1.27
+	Version: 1.28
 	Description: Hoffman is a beautifully minimal, responsive and retina-ready theme for bloggers. It features a social icon menu, Jetpack support for infinite scroll, Block Editor/Gutenberg support, three custom widgets, two page templates, editor styling, translation-ready code, custom accent color support, custom background support, support for the gallery post format, and much more. Demo: https://www.andersnoren.se/themes/hoffman/
 	Tags: blog, one-column, custom-colors, custom-menu, editor-style, featured-images, footer-widgets, post-formats, sticky-post, theme-options, threaded-comments, translation-ready
 	Author: Anders Norén
@@ -1557,12 +1557,16 @@ figure {
 	padding-bottom: 10px;
 }
 
-.post-content .wp-block-gallery.alignfull {
-	padding: 0 8px;
-}
-
 .post-content ul.wp-block-gallery:not(.alignfull):not(.alignwide) {
 	margin-left: 0;
+}
+
+.post-content ul.blocks-gallery-grid {
+	margin-left: 0;
+}
+
+.post-content ul.blocks-gallery-grid li:last-child {
+	margin-bottom: 16px;
 }
 
 

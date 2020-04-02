@@ -156,7 +156,7 @@ if ( ! function_exists( 'hoffman_widget_areas_registration' ) ) {
 			'description' 	=> __( 'Widgets in this area will be shown in the left column in the footer.', 'hoffman' ),
 			'before_title' 	=> '<h3 class="widget-title">',
 			'after_title' 	=> '</h3>',
-			'before_widget' => '<div class="widget %2$s"><div class="widget-content">',
+			'before_widget' => '<div id="%1$s" class="widget %2$s"><div class="widget-content">',
 			'after_widget' 	=> '</div><div class="clear"></div></div>'
 		)) ;	
 
@@ -166,7 +166,7 @@ if ( ! function_exists( 'hoffman_widget_areas_registration' ) ) {
 			'description' 	=> __( 'Widgets in this area will be shown in the middle column in the footer.', 'hoffman' ),
 			'before_title' 	=> '<h3 class="widget-title">',
 			'after_title' 	=> '</h3>',
-			'before_widget' => '<div class="widget %2$s"><div class="widget-content">',
+			'before_widget' => '<div id="%1$s" class="widget %2$s"><div class="widget-content">',
 			'after_widget' 	=> '</div><div class="clear"></div></div>'
 		) );
 
@@ -176,7 +176,7 @@ if ( ! function_exists( 'hoffman_widget_areas_registration' ) ) {
 			'description' 	=> __( 'Widgets in this area will be shown in the right column in the footer.', 'hoffman' ),
 			'before_title' 	=> '<h3 class="widget-title">',
 			'after_title' 	=> '</h3>',
-			'before_widget' => '<div class="widget %2$s"><div class="widget-content">',
+			'before_widget' => '<div id="%1$s" class="widget %2$s"><div class="widget-content">',
 			'after_widget' 	=> '</div><div class="clear"></div></div>'
 		) );
 
