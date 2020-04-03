@@ -75,6 +75,10 @@ Source: http://flexslider.woothemes.com
 
 == Changelog ==
 
+Version 1.29 (2020-04-03)
+-------------------------
+- Fixed Genericons issue.
+
 Version 1.28 (2020-04-02)
 -------------------------
 - Fixed an issue with the gallery block margins.
