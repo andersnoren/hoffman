@@ -1,12 +1,12 @@
 === Hoffman ===
 Contributors: Anlino
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=anders%40andersnoren%2ese&lc=US&item_name=Free%20WordPress%20Themes%20from%20Anders%20Noren&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
-Requires at least: 4.4
-Tested up to: 5.4
+Requires at least: 4.5
+Tested up to: 5.4.1
+Requires PHP: 5.4
 Stable tag: trunk
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
-
 
 == Installation ==
 
@@ -14,7 +14,6 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 2. Activate the theme
 
 All theme specific options are handled through the WordPress Customizer.
-
 
 == Frequently Asked Questions ==
 
@@ -25,7 +24,6 @@ All theme specific options are handled through the WordPress Customizer.
 3. Click "Add Media" and upload the images you wish to display in the gallery.
 4. Close the Media window and publish/update the post.
 5. The images you uploaded should now be displayed in the post gallery.
-
 
 == Use the social menu in the header and footer
 
@@ -44,7 +42,6 @@ For a list of all social icons supported, visit http://genericons.com/.
 2. Scroll down to "Contact Info". Below that headline, you will find fields for each social network supported.
 3. To add a social network to your author profile, add the URL to your page on that social network in the corresponding field.
 4. When you are done, scroll down to the bottom and click "Update Profile".
-
 
 == Licenses ==
 
@@ -72,8 +69,75 @@ FlexSlider jQuery slider
 License: GNU GPL 2.0 
 Source: http://flexslider.woothemes.com
 
-
 == Changelog ==
+
+Version 2.0.0 (2020-05-26)
+-------------------------
+- Moved CSS, JavaScript, images and fonts to the new `/assets/` folder.
+- Moved widgets to the new `/inc/` folder.
+- Renamed editor style files.
+- Updated widget file names.
+- Removed the Flickr widget since the Flickr Badge API is being removed.
+- Added theme version to enqueues, for cache busting.
+- Unified widget registration and deregistration into a single function.
+- Removed an admin CSS fix for post thumbnail width which hasn't been needed for +5 years.
+- Moved the Hoffman_Theme_Customize class to its own file.
+- Renamed the `regular` block editor font size to `normal`, matching expected naming.
+- General cleanup of functions.php.
+- Removed the `post-image` image size and set the `post-thumbnail` to the same size.
+- Removed the `thumbnail-square` image size, which wasn't being used...?!
+- Removed Customizer live preview.
+- Removed the custom profile fields added with `user_contactmethods`, since themes are not allowed to add profile fields. These changes were required for Hoffman to remain on the WordPress.org theme directory.
+- Added support for the core custom_logo setting, and updated the old `hoffman_logo` setting to only be displayed if you already have a `hoffman_logo` image set (kudos to @poena).
+- Bumped the "Requires at least" tag to 4.5, since Hoffman is now using `custom_logo`.
+- Added the "Requires PHP" field to readme.txt, and the "Tested up to" and "Requires PHP" fields to style.css.
+- Only output the accent color inline CSS if the selected color differs from the default.
+- Added block editor color classes to the block editor styles.
+- Updated clearfix to use pseudo elements.
+- Removed all title attributes from links, replaced with screen-reader-text where appropriate.
+- Removed the "Comments are closed" message.
+- Restructured the archive template by adding the archive template content to `the_content` with a filter, allowing us to use `singular.php` for that template.
+- Minifed flexslider.js (non-minified version is still included), added version number.
+- Updated template files with semantic HTML5 elements.
+- Updated CSS reset.
+- Update credits structure to prevent menu breakage.
+- Removed vendor prefixed CSS for transform and transition.
+- Updated theme description.
+- Added style.css theme tags for block-styles and wide-blocks.
+- Updated the theme description to reflect updates.
+- Updated links to be underlined by default.
+- Fixed recent posts widget missing post date output.
+- Improved the structure of the main menu, esp. when wrapped over multiple lines.
+- Show dropdown menus on focus as well as on hover.
+- Broke out the old Post Content CSS into three sections: Blocks, Post Content, and Element Base, with the targeting in the latter section being global.
+- Updated styles of all theme elements to account for the old Post Content styles now being global.
+- CSS cleanup (not enough, never enough).
+- Restructured the JavaScript for the post meta tab selector.
+- Updated the author meta to display the translated user role.
+- Bumped color contrast.
+- Restructured archive header to be more SEO-friendly, and to output the archive description for all post types.
+- Set the text to be antialiased in supported browsers.
+- Output the excerpt on the search results page.
+- Made widgets pluggable, cleaned up, fixed potential notices, fixed escaping.
+- Moved the pagination to pagination.php.
+- Removed license.txt.
+- Updated header element order to match visual order.
+- Changed the navigation toggle to a `button` element.
+- Set a max width on the header social menu to prevent overflow on top of the title.
+- Improved search form styling.
+- Removed `search-form.php`, added support for the HTML 5 search form, and updated styles accordingly.
+- Updated the Full Width Template to use `singular.php`, and set the width in CSS instead, reducing code duplication.
+- Updated CSS comment sections, TOC.
+- Adjusted site logo layout.
+- Adjusted Quote block styles, better support for text alignments.
+- Added base block margins.
+- Adjusted Calendar block styles.
+- Adjusted Media and Text block styles.
+- Adjusted widget styles.
+- Updated the Customizer CSS function to output the resulting CSS with `wp_add_inline_style()`.
+- Set the tab in the top right to share background color with the background color set in the Customizer.
+- Updated the Customizer CSS targeting to account for updates to `style.css` and the template files.
+- Converted the screenshot to JPG format, reducing file size by ~300 KB.
 
 Version 1.29 (2020-04-03)
 -------------------------

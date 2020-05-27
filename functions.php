@@ -1,12 +1,11 @@
 <?php
 
+
 /* ---------------------------------------------------------------------------------------------
    THEME SETUP
    --------------------------------------------------------------------------------------------- */
 
-
-if ( ! function_exists( 'hoffman_setup' ) ) {
-
+if ( ! function_exists( 'hoffman_setup' ) ) :
 	function hoffman_setup() {
 		
 		// Automatic feed
@@ -14,15 +13,23 @@ if ( ! function_exists( 'hoffman_setup' ) ) {
 		
 		// Post thumbnails
 		add_theme_support( 'post-thumbnails' ); 
-		add_image_size( 'post-image', 1200, 9999 );
-		add_image_size( 'thumbnail-square', 100, 100, true );
+		set_post_thumbnail_size( 1200, 9999 );
 		
 		// Post formats
 		add_theme_support( 'post-formats', array( 'gallery' ) );
 		
 		// Custom background
-		$defaults = array( 'default-color' => 'F9F9F9' );
-		add_theme_support( 'custom-background', $defaults );
+		add_theme_support( 'custom-background', array( 
+			'default-color'	=> 'F9F9F9' 
+		) );
+
+		// Custom logo
+		add_theme_support( 'custom-logo', array(
+			'height'      => 240,
+			'width'       => 320,
+			'flex-height' => true,
+			'flex-width'  => true,
+		) );
 		
 		// Jetpack infinite scroll
 		add_theme_support( 'infinite-scroll', array(
@@ -33,6 +40,9 @@ if ( ! function_exists( 'hoffman_setup' ) ) {
 		
 		// Add support for title-tag
 		add_theme_support( 'title-tag' );
+
+		// Add HTML5 support to the search form
+		add_theme_support( 'html5', array( 'search-form' ) );
 		
 		// Add nav menu
 		register_nav_menu( 'primary', __( 'Primary Menu', 'hoffman' ) );
@@ -47,107 +57,102 @@ if ( ! function_exists( 'hoffman_setup' ) ) {
 		
 	}
 	add_action( 'after_setup_theme', 'hoffman_setup' );
+endif;
 
-}
+
+/* ---------------------------------------------------------------------------------------------
+   INCLUDE REQUIRED FILES
+   --------------------------------------------------------------------------------------------- */
+
+require get_template_directory() . '/inc/widgets/class-hoffman-recent-comments.php';
+require get_template_directory() . '/inc/widgets/class-hoffman-recent-posts.php';
+require get_template_directory() . '/inc/classes/class-hoffman-customize.php';
 
 
 /* ---------------------------------------------------------------------------------------------
    ENQUEUE SCRIPTS
    --------------------------------------------------------------------------------------------- */
 
-
-if ( ! function_exists( 'hoffman_load_javascript_files' ) ) {
-
+if ( ! function_exists( 'hoffman_load_javascript_files' ) ) :
 	function hoffman_load_javascript_files() {
 
-		if ( ! is_admin() ) {
-			wp_register_script( 'hoffman_flexslider', get_template_directory_uri() . '/js/flexslider.js', '', true );
-			
-			wp_enqueue_script( 'hoffman_global', get_template_directory_uri() . '/js/global.js', array( 'jquery', 'hoffman_flexslider' ), '', true  );
+		$theme_version = wp_get_theme( 'hoffman' )->get( 'Version' );
 
-			if ( is_singular() ) wp_enqueue_script( 'comment-reply' );
-		}
+		wp_register_script( 'hoffman_flexslider', get_template_directory_uri() . '/assets/js/flexslider.min.js', array(), '2.7.0' );
+		
+		wp_enqueue_script( 'hoffman_global', get_template_directory_uri() . '/assets/js/global.js', array( 'jquery', 'hoffman_flexslider' ), $theme_version, true  );
+
+		if ( is_singular() ) wp_enqueue_script( 'comment-reply' );
+
 	}
 	add_action( 'wp_enqueue_scripts', 'hoffman_load_javascript_files' );
-
-}
+endif;
 
 
 /* ---------------------------------------------------------------------------------------------
    ENQUEUE STYLES
    --------------------------------------------------------------------------------------------- */
 
-
-if ( ! function_exists( 'hoffman_load_style' ) ) {
-
+if ( ! function_exists( 'hoffman_load_style' ) ) :
 	function hoffman_load_style() {
-		if ( ! is_admin() ) {
 
-			$dependencies = array();
+		if ( is_admin() ) return;
 
-			/**
-			 * Translators: If there are characters in your language that are not
-			 * supported by the theme fonts, translate this to 'off'. Do not translate
-			 * into your own language.
-			 */
-			$google_fonts = _x( 'on', 'Google Fonts: on or off', 'hoffman' );
-
-			if ( 'off' !== $google_fonts ) {
-
-				// Register Google Fonts
-				wp_register_style( 'hoffman_googleFonts', '//fonts.googleapis.com/css?family=Raleway:400,600,700,800|Vollkorn:400,400italic,700,700italic' );
-				$dependencies[] = 'hoffman_googleFonts';
-
-			}
-
-			wp_register_style( 'hoffman_genericons', get_template_directory_uri() . '/genericons/genericons.css' );
-			$dependencies[] = 'hoffman_genericons';
-
-			wp_enqueue_style( 'hoffman_style', get_stylesheet_uri(), $dependencies );
-		}
-	}
-	add_action( 'wp_print_styles', 'hoffman_load_style' );
-
-}
-
-
-/* ---------------------------------------------------------------------------------------------
-   ADD EDITOR STYLES
-   --------------------------------------------------------------------------------------------- */
-
-
-if ( ! function_exists( 'hoffman_add_editor_styles' ) ) {
-
-	function hoffman_add_editor_styles() {
-		add_editor_style( 'hoffman-editor-styles.css' );
+		$dependencies = array();
+		$theme_version = wp_get_theme( 'hoffman' )->get( 'Version' );
 
 		/**
 		 * Translators: If there are characters in your language that are not
 		 * supported by the theme fonts, translate this to 'off'. Do not translate
 		 * into your own language.
 		 */
-		$google_fonts = _x( 'on', 'Google Fonts: on or off', 'hoffman' );
+		if ( 'off' !== _x( 'on', 'Google Fonts: on or off', 'hoffman' ) ) {
+			wp_register_style( 'hoffman_googleFonts', '//fonts.googleapis.com/css?family=Raleway:400,600,700,800|Vollkorn:400,400italic,700,700italic' );
+			$dependencies[] = 'hoffman_googleFonts';
+		}
 
-		if ( 'off' !== $google_fonts ) {
+		wp_register_style( 'hoffman_genericons', get_template_directory_uri() . '/assets/css/genericons.css' );
+		$dependencies[] = 'hoffman_genericons';
 
+		wp_enqueue_style( 'hoffman_style', get_stylesheet_uri(), $dependencies, $theme_version );
+
+		// Add custom CSS
+		wp_add_inline_style( 'hoffman_style', Hoffman_Customize::get_custom_css() );
+
+	}
+	add_action( 'wp_print_styles', 'hoffman_load_style' );
+endif;
+
+
+/* ---------------------------------------------------------------------------------------------
+   ADD EDITOR STYLES
+   --------------------------------------------------------------------------------------------- */
+
+if ( ! function_exists( 'hoffman_add_editor_styles' ) ) :
+	function hoffman_add_editor_styles() {
+
+		add_editor_style( 'assets/css/hoffman-editor-styles.css' );
+
+		/**
+		 * Translators: If there are characters in your language that are not
+		 * supported by the theme fonts, translate this to 'off'. Do not translate
+		 * into your own language.
+		 */
+		if ( 'off' !== _x( 'on', 'Google Fonts: on or off', 'hoffman' ) ) {
 			$font_url = '//fonts.googleapis.com/css?family=Raleway:400,600,700,800|Vollkorn:400,400italic,700,700italic';
 			add_editor_style( str_replace( ',', '%2C', $font_url ) );
-
 		}
 
 	}
 	add_action( 'init', 'hoffman_add_editor_styles' );
-
-}
+endif;
 
 
 /* ---------------------------------------------------------------------------------------------
    ADD WIDGET AREAS
    --------------------------------------------------------------------------------------------- */
 
-
-if ( ! function_exists( 'hoffman_widget_areas_registration' ) ) {
-
+if ( ! function_exists( 'hoffman_widget_areas_registration' ) ) :
 	function hoffman_widget_areas_registration() {
 
 		register_sidebar( array(
@@ -157,7 +162,7 @@ if ( ! function_exists( 'hoffman_widget_areas_registration' ) ) {
 			'before_title' 	=> '<h3 class="widget-title">',
 			'after_title' 	=> '</h3>',
 			'before_widget' => '<div id="%1$s" class="widget %2$s"><div class="widget-content">',
-			'after_widget' 	=> '</div><div class="clear"></div></div>'
+			'after_widget' 	=> '</div></div>'
 		)) ;	
 
 		register_sidebar( array(
@@ -167,7 +172,7 @@ if ( ! function_exists( 'hoffman_widget_areas_registration' ) ) {
 			'before_title' 	=> '<h3 class="widget-title">',
 			'after_title' 	=> '</h3>',
 			'before_widget' => '<div id="%1$s" class="widget %2$s"><div class="widget-content">',
-			'after_widget' 	=> '</div><div class="clear"></div></div>'
+			'after_widget' 	=> '</div></div>'
 		) );
 
 		register_sidebar( array(
@@ -177,103 +182,91 @@ if ( ! function_exists( 'hoffman_widget_areas_registration' ) ) {
 			'before_title' 	=> '<h3 class="widget-title">',
 			'after_title' 	=> '</h3>',
 			'before_widget' => '<div id="%1$s" class="widget %2$s"><div class="widget-content">',
-			'after_widget' 	=> '</div><div class="clear"></div></div>'
+			'after_widget' 	=> '</div></div>'
 		) );
 
 	}
 	add_action( 'widgets_init', 'hoffman_widget_areas_registration' ); 
-
-}
-
-
-/* ---------------------------------------------------------------------------------------------
-   ADD THEME WIDGETS
-   --------------------------------------------------------------------------------------------- */
-
-
-require_once( get_template_directory() . '/widgets/flickr.php' );
-require_once( get_template_directory() . '/widgets/recent-comments.php' );
-require_once( get_template_directory() . '/widgets/recent-posts.php' );
+endif;
 
 
 /* ---------------------------------------------------------------------------------------------
-   DELIST WORDPRESS WIDGETS REPLACED BY THEME WIDGETS
+   REGISTER AND UNREGISTER WIDGETS
    --------------------------------------------------------------------------------------------- */
 
+if ( ! function_exists( 'hoffman_widgets_init' ) ) :
+	function hoffman_widgets_init() {
 
-if ( ! function_exists( 'hoffman_unregister_default_widgets' ) ) {
-
-	function hoffman_unregister_default_widgets() {
+		// Register widgets
+		register_widget( 'Hoffman_Recent_Comments' );
+		register_widget( 'Hoffman_Recent_Posts' );
+		
+		// Unregister widgets
 		unregister_widget( 'WP_Widget_Recent_Comments');
 		unregister_widget( 'WP_Widget_Recent_Posts');
-	}
-	add_action( 'widgets_init', 'hoffman_unregister_default_widgets', 11 );
 
-}
+	}
+	add_action( 'widgets_init', 'hoffman_widgets_init', 11 );
+endif;
 
 
 /* ---------------------------------------------------------------------------------------------
    CHECK JAVASCRIPT SUPPORT
    --------------------------------------------------------------------------------------------- */
 
+if ( ! function_exists( 'hoffman_html_js_class' ) ) :
+	function hoffman_html_js_class() {
 
-if ( ! function_exists( 'hoffman_html_js_class' ) ) {
-
-	function hoffman_html_js_class () {
 		echo '<script>document.documentElement.className = document.documentElement.className.replace("no-js","js");</script>'. "\n";
+
 	}
 	add_action( 'wp_head', 'hoffman_html_js_class', 1 );
-
-}
+endif;
 
 
 /* ---------------------------------------------------------------------------------------------
    ADD PAGINATION CLASSES
    --------------------------------------------------------------------------------------------- */
 
+if ( ! function_exists( 'hoffman_next_posts_link_attributes' ) ) :
+	function hoffman_next_posts_link_attributes() {
 
-if ( ! function_exists( 'hoffman_posts_link_attributes_1' ) ) {
-
-	function hoffman_posts_link_attributes_1() {
 		return 'class="post-nav-older"';
+
 	}
-	add_filter( 'next_posts_link_attributes', 'hoffman_posts_link_attributes_1' );
+	add_filter( 'next_posts_link_attributes', 'hoffman_next_posts_link_attributes' );
+endif;
 
-}
+if ( ! function_exists( 'hoffman_previous_posts_link_attributes' ) ) :
+	function hoffman_previous_posts_link_attributes() {
 
-if ( ! function_exists( 'hoffman_posts_link_attributes_2' ) ) {
-
-	function hoffman_posts_link_attributes_2() {
 		return 'class="post-nav-newer"';
-	}
-	add_filter( 'previous_posts_link_attributes', 'hoffman_posts_link_attributes_2' );
 
-}
+	}
+	add_filter( 'previous_posts_link_attributes', 'hoffman_previous_posts_link_attributes' );
+endif;
 
 
 /* ---------------------------------------------------------------------------------------------
    CUSTOM MORE LINK TEXT
    --------------------------------------------------------------------------------------------- */
 
-
-if ( ! function_exists( 'hoffman_custom_more_link' ) ) {
-
+if ( ! function_exists( 'hoffman_custom_more_link' ) ) :
 	function hoffman_custom_more_link( $more_link, $more_link_text ) {
+
 		return str_replace( $more_link_text, __( 'Read more', 'hoffman' ), $more_link );
+
 	}
 	add_filter( 'the_content_more_link', 'hoffman_custom_more_link', 10, 2 );
-
-}
+endif;
 
 
 /* ---------------------------------------------------------------------------------------------
    BODY CLASSES
    --------------------------------------------------------------------------------------------- */
 
-
-if ( ! function_exists( 'hoffman_body_classes' ) ) {
-
-	function hoffman_body_classes($classes) {
+if ( ! function_exists( 'hoffman_body_classes' ) ) :
+	function hoffman_body_classes( $classes ) {
 		
 		// Check post thumbnail
 		$classes[] = has_post_thumbnail() ? 'has-featured-image' : 'no-featured-image';
@@ -284,39 +277,39 @@ if ( ! function_exists( 'hoffman_body_classes' ) ) {
 		}
 
 		return $classes;
+
 	}
 	add_filter( 'body_class', 'hoffman_body_classes' );
-
-}
+endif;
 
 
 /* ---------------------------------------------------------------------------------------------
    POST CLASSES
    --------------------------------------------------------------------------------------------- */
 
-
-if ( ! function_exists( 'hoffman_post_classes' ) ) {
-
+if ( ! function_exists( 'hoffman_post_classes' ) ) :
 	function hoffman_post_classes( $classes ) {
 		
+		// Add the post class to all post classes, simplifying legacy post styling
+		$classes[] = 'post';
+
 		// Check post thumbnail
 		$classes[] = has_post_thumbnail() ? 'has-featured-image' : 'no-featured-image';
 		
 		return $classes;
+
 	}
 	add_filter( 'post_class', 'hoffman_post_classes' );
-
-}
+endif;
 
 
 /* ---------------------------------------------------------------------------------------------
    GET COMMENT EXCERPT LENGTH
    --------------------------------------------------------------------------------------------- */
 
-
-if ( ! function_exists( 'hoffman_get_comment_excerpt' ) ) {
-
+if ( ! function_exists( 'hoffman_get_comment_excerpt' ) ) :
 	function hoffman_get_comment_excerpt( $comment_ID = 0, $num_words = 20 ) {
+
 		$comment = get_comment( $comment_ID );
 		$comment_text = strip_tags( $comment->comment_content );
 		$blah = explode( ' ', $comment_text );
@@ -333,43 +326,17 @@ if ( ! function_exists( 'hoffman_get_comment_excerpt' ) ) {
 		}
 		$excerpt .= ( $use_dotdotdot ) ? '...' : '';
 		return apply_filters( 'get_comment_excerpt', $excerpt );
+
 	}
-
-}
-
-
-
-/* ---------------------------------------------------------------------------------------------
-   ADMIN CSS
-   --------------------------------------------------------------------------------------------- */
-
-
-if ( ! function_exists( 'hoffman_admin_css' ) ) {
-
-	function hoffman_admin_css() { 
-	echo '
-	<style type="text/css">
-
-		#postimagediv #set-post-thumbnail img {
-			max-width: 100%;
-			height: auto;
-		}
-
-	</style>';
-	}
-	add_action( 'admin_head', 'hoffman_admin_css' );
-
-}
+endif;
 
 
 /* ---------------------------------------------------------------------------------------------
    FLEXSLIDER FUNCTION
    --------------------------------------------------------------------------------------------- */
 
-
-if ( ! function_exists( 'hoffman_flexslider' ) ) {
-
-	function hoffman_flexslider( $size = 'thumbnail' ) {
+if ( ! function_exists( 'hoffman_flexslider' ) ) :
+	function hoffman_flexslider( $size = 'post-thumbnail' ) {
 
 		$attachment_parent = is_page() ? $post->ID : get_the_ID();
 
@@ -391,7 +358,7 @@ if ( ! function_exists( 'hoffman_flexslider' ) ) {
 			
 				<ul class="slides">
 		
-					<?php foreach( $images as $image ) :
+					<?php foreach ( $images as $image ) :
 
 						$attimg = wp_get_attachment_image( $image->ID, $size ); ?>
 						
@@ -416,47 +383,91 @@ if ( ! function_exists( 'hoffman_flexslider' ) ) {
 			
 		endif;
 	}
+endif;
 
-}
+
+/*	-----------------------------------------------------------------------------------------------
+	FILTER ARCHIVE TITLE
+
+	@param	$title string		The initial title
+--------------------------------------------------------------------------------------------------- */
+
+if ( ! function_exists( 'hoffman_filter_archive_title' ) ) :
+	function hoffman_filter_archive_title( $title ) {
+
+		global $paged;
+
+		if ( is_home() && $paged <= 1 ) {
+			$title = '';
+		}
+
+		// On search, show the search query.
+		else if ( is_search() ) {
+			$title = sprintf( _x( 'Search Results: %s', '%s = The search query', 'hoffman' ), '&ldquo;' . get_search_query() . '&rdquo;' );
+		}
+
+		return $title;
+
+	}
+	add_filter( 'get_the_archive_title', 'hoffman_filter_archive_title' );
+endif;
+
+
+/*	-----------------------------------------------------------------------------------------------
+	FILTER ARCHIVE DESCRIPTION
+
+	@param	$description string		The initial description
+--------------------------------------------------------------------------------------------------- */
+
+if ( ! function_exists( 'hoffman_filter_archive_description' ) ) :
+	function hoffman_filter_archive_description( $description ) {
+
+		// On search, show a string describing the results of the search.
+		if ( is_search() ) {
+			global $wp_query;
+			if ( $wp_query->found_posts ) {
+				/* Translators: %s = Number of results */
+				$description = sprintf( _nx( 'We found %s result for your search.', 'We found %s results for your search.',  $wp_query->found_posts, '%s = Number of results', 'hoffman' ), $wp_query->found_posts );
+			} else {
+				$description = __( 'We could not find any results for your search. You can give it another try through the search form below.', 'hoffman' );
+			}
+		}
+
+		return $description;
+
+	}
+	add_filter( 'get_the_archive_description', 'hoffman_filter_archive_description' );
+endif;
 
 
 /* ---------------------------------------------------------------------------------------------
-   ADD SOCIAL NETWORKS FIELDS TO USER PROFILES
+   APPEND ARCHIVE TEMPLATE ELEMENTS TO CONTENT
    --------------------------------------------------------------------------------------------- */
 
+if ( ! function_exists( 'hoffman_archive_template_content' ) ) :
+	function hoffman_archive_template_content( $content ) {
 
-if ( ! function_exists( 'hoffman_modify_contact_methods' ) ) {
+		// On the archive page, append the archive content to the_content.
+		if ( is_page_template( 'template-archive.php' ) ) {
+			ob_start();
+			get_template_part( 'template-parts/archive-template-content' );
+			$content .= ob_get_clean();
+		}
 
-	function hoffman_modify_contact_methods( $profile_fields ) {
+		return $content;
 
-		// Add new fields
-		$profile_fields['dribbble'] = 'Dribbble URL';
-		$profile_fields['facebook'] = 'Facebook URL';
-		$profile_fields['flickr'] = 'Flickr URL';
-		$profile_fields['googleplus'] = 'Google+ URL';
-		$profile_fields['linkedin'] = 'LinkedIn URL';
-		$profile_fields['instagram'] = 'Instagram URL';
-		$profile_fields['pinterest'] = 'Pinterest URL';
-		$profile_fields['skype'] = 'Skype URL';
-		$profile_fields['tumblr'] = 'Tumblr URL';
-		$profile_fields['twitter'] = 'Twitter URL';
-		$profile_fields['vimeo'] = 'Vimeo URL';
-		
-		return $profile_fields;
 	}
-	add_filter( 'user_contactmethods', 'hoffman_modify_contact_methods' );
-
-}
+	add_filter( 'the_content', 'hoffman_archive_template_content' );
+endif;
 
 
 /* ---------------------------------------------------------------------------------------------
    COMMENT FUNCTION
    --------------------------------------------------------------------------------------------- */
 
-
-if ( ! function_exists( 'hoffman_comment' ) ) {
-
+if ( ! function_exists( 'hoffman_comment' ) ) :
 	function hoffman_comment( $comment, $args, $depth ) {
+
 		switch ( $comment->comment_type ) :
 			case 'pingback' :
 			case 'trackback' :
@@ -482,7 +493,9 @@ if ( ! function_exists( 'hoffman_comment' ) ) {
 				static $comment_number; $comment_number++;
 				$comment_number = str_pad( $comment_number, 2, '0', STR_PAD_LEFT );
 				
-				if ( $comment->user_id === $post->post_author ) { echo '<a href="' . esc_url( get_comment_link( $comment->comment_ID ) ) . '" title="' . __( 'Comment by post author', 'hoffman' ) . '" class="by-post-author"></a>'; } ?>
+				if ( $comment->user_id === $post->post_author ) echo '<a href="' . esc_url( get_comment_link( $comment->comment_ID ) ) . '" class="by-post-author"><span class="screen-reader-text">' . __( 'Comment by post author', 'hoffman' ) . '</span></a>'; 
+				
+				?>
 				
 				<div class="comment-inner">
 				
@@ -504,11 +517,11 @@ if ( ! function_exists( 'hoffman_comment' ) ) {
 						
 					</div><!-- .comment-content -->
 					
-					<div class="comment-actions">
+					<div class="comment-actions group">
 					
 						<div class="fleft">
 						
-							<p class="comment-date"><a class="comment-date-link" href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>" title="<?php printf( _x( '%1$s at %2$s', 'Variables: Date, time', 'hoffman' ), get_comment_date(), get_comment_time() ); ?>"><?php echo get_comment_date() . '<span> &mdash; ' . get_comment_time() . '</span>'; ?></a></p>
+							<p class="comment-date"><a class="comment-date-link" href="<?php echo esc_url( get_comment_link( $comment->comment_ID ) ); ?>"><?php echo get_comment_date() . '<span> &mdash; ' . get_comment_time() . '</span>'; ?></a></p>
 						
 						</div>
 					
@@ -529,8 +542,6 @@ if ( ! function_exists( 'hoffman_comment' ) ) {
 							?>
 						
 						</div><!-- .fright -->
-						
-						<div class="clear"></div>
 										
 					</div><!-- .comment-actions -->
 				
@@ -542,206 +553,23 @@ if ( ! function_exists( 'hoffman_comment' ) ) {
 			break;
 		endswitch;
 	}
-
-}
-
-
-/* ---------------------------------------------------------------------------------------------
-   HOFFMAN THEME OPTIONS
-   --------------------------------------------------------------------------------------------- */
-
-
-class hoffman_customize {
-
-   public static function hoffman_register( $wp_customize ) {
-   
-      //1. Define a new section (if desired) to the Theme Customizer
-      $wp_customize->add_section( 'hoffman_options', 
-         array(
-            'title' 		=> __( 'Hoffman Options', 'hoffman' ), //Visible title of section
-            'priority' 		=> 35, //Determines what order this appears in
-            'capability' 	=> 'edit_theme_options', //Capability needed to tweak
-            'description' 	=> __('Allows you to customize theme settings for Hoffman.', 'hoffman'), //Descriptive tooltip
-         ) 
-      );
-      
-      $wp_customize->add_section( 'hoffman_logo_section', array(
-            'title'       => __( 'Logo', 'hoffman' ),
-            'priority'    => 40,
-            'description' => __('Upload a logo to replace the default site name and description in the header', 'hoffman'),
-      ) );
-        
-      
-      //2. Register new settings to the WP database...
-      $wp_customize->add_setting( 'accent_color', //No need to use a SERIALIZED name, as `theme_mod` settings already live under one db record
-         array(
-            'default' 			=> '#928452', //Default setting/value to save
-            'type' 				=> 'theme_mod', //Is this an 'option' or a 'theme_mod'?
-            'transport' 		=> 'postMessage', //What triggers a refresh of the setting? 'refresh' or 'postMessage' (instant)?
-            'sanitize_callback' => 'sanitize_hex_color'
-         ) 
-      );
-
-      
-      $wp_customize->add_setting( 'hoffman_logo', 
-      	array( 
-      		'sanitize_callback' => 'esc_url_raw'
-      	) 
-      );
-                  
-      //3. Finally, we define the control itself (which links a setting to a section and renders the HTML controls)...
-      $wp_customize->add_control( new WP_Customize_Color_Control( //Instantiate the color control class
-         $wp_customize, //Pass the $wp_customize object (required)
-         'hoffman_accent_color', //Set a unique ID for the control
-         array(
-            'label' 		=> __( 'Accent Color', 'hoffman' ), //Admin-visible name of the control
-            'section' 		=> 'colors', //ID of the section this control should render in (can be one of yours, or a WordPress default section)
-            'settings' 		=> 'accent_color', //Which setting to load and manipulate (serialized is okay)
-            'priority' 		=> 10, //Determines the order this control appears in for the specified section
-         ) 
-      ) );
-      
-        $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'hoffman_logo', array(
-		    'label'    => __( 'Logo', 'hoffman' ),
-		    'section'  => 'hoffman_logo_section',
-		    'settings' => 'hoffman_logo',
-		) ) );
-        
-        
-      //4. We can also change built-in settings by modifying properties. For instance, let's make some stuff use live preview JS...
-      $wp_customize->get_setting( 'blogname' )->transport = 'postMessage';
-      $wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
-   }
-
-   public static function hoffman_header_output() {
-      
-		echo '<!-- Customizer CSS -->';
-		echo '<style type="text/css">';
-			self::hoffman_generate_css( 'body a', 'color', 'accent_color' );
-			self::hoffman_generate_css( 'body a:hover', 'color', 'accent_color' );
-
-			self::hoffman_generate_css( '.blog-title a', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.main-menu > li > ul:before', 'border-bottom-color', 'accent_color' );
-			self::hoffman_generate_css( '.main-menu ul li', 'background', 'accent_color' );
-			self::hoffman_generate_css( '.main-menu ul > .page_item_has_children:hover::after', 'border-left-color', 'accent_color' );
-			self::hoffman_generate_css( '.main-menu ul > .menu-item-has-children:hover::after', 'border-left-color', 'accent_color' );
-			self::hoffman_generate_css( '.menu-social a:hover', 'background', 'accent_color' );
-			self::hoffman_generate_css( '.sticky .is-sticky:hover', 'background', 'accent_color' );
-			self::hoffman_generate_css( '.sticky .is-sticky:hover:before', 'border-top-color', 'accent_color' );
-			self::hoffman_generate_css( '.sticky .is-sticky:hover:before', 'border-left-color', 'accent_color' );
-			self::hoffman_generate_css( '.sticky .is-sticky:hover:after', 'border-left-color', 'accent_color' );
-			self::hoffman_generate_css( '.sticky .is-sticky:hover:after', 'border-bottom-color', 'accent_color' );
-			self::hoffman_generate_css( '.flex-direction-nav a:hover', 'background-color', 'accent_color' );
-			self::hoffman_generate_css( '.post-title a:hover', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.post-header:after', 'background', 'accent_color' );
-
-			self::hoffman_generate_css( '.post-content a', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.post-content a:hover', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.post-content a:hover', 'border-bottom-color', 'accent_color' );
-			self::hoffman_generate_css( '.post-content a.more-link', 'border-color', 'accent_color' );
-			self::hoffman_generate_css( '.post-content a.more-link:hover', 'background', 'accent_color' );
-			self::hoffman_generate_css( '.post-content input[type="submit"]:hover', 'background-color', 'accent_color' );
-			self::hoffman_generate_css( '.post-content input[type="reset"]:hover', 'background-color', 'accent_color' );
-			self::hoffman_generate_css( '.post-content input[type="button"]:hover', 'background-color', 'accent_color' );
-			self::hoffman_generate_css( '.post-content fieldset legend', 'background-color', 'accent_color' );
-
-			self::hoffman_generate_css( '.post-content .has-accent-color', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.post-content .has-accent-background-color', 'background-color', 'accent_color' );
-
-			self::hoffman_generate_css( '#infinite-handle span', 'color', 'accent_color' );
-			self::hoffman_generate_css( '#infinite-handle span', 'border-color', 'accent_color' );
-			self::hoffman_generate_css( '#infinite-handle span:hover', 'background', 'accent_color' );
-			self::hoffman_generate_css( '.post-content .page-links a:hover', 'background', 'accent_color' );
-			self::hoffman_generate_css( '.tab-selector a.active', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.tab-selector a.active', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.add-comment-title a', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.add-comment-title a:hover', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.bypostauthor .by-post-author', 'background-color', 'accent_color' );
-			self::hoffman_generate_css( '.comment-actions a:hover', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.comment-actions a:hover:before', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.comment-header h4 a:hover', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.comment-content a', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.comment-content a:hover', 'color', 'accent_color' );
-			self::hoffman_generate_css( '#cancel-comment-reply-link:hover', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.comments-nav a:hover', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.post-meta-item .genericon', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.post-meta-item a:hover', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.post-nav a:hover h5', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.author-name a:hover', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.author-meta-social a:hover', 'background', 'accent_color' );
-			self::hoffman_generate_css( '.logged-in-as a', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.comment-form input[type="text"]:focus', 'border-color', 'accent_color' );
-			self::hoffman_generate_css( '.comment-form input[type="email"]:focus', 'border-color', 'accent_color' );
-			self::hoffman_generate_css( '.comment-form input[type="url"]:focus', 'border-color', 'accent_color' );
-			self::hoffman_generate_css( '.comment-form textarea:focus', 'border-color', 'accent_color' );
-			self::hoffman_generate_css( '.comment-form input[type="submit"]', 'color', 'accent_color');          
-			self::hoffman_generate_css( '.comment-form input[type="submit"]', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.comment-form input[type="submit"]', 'border-color', 'accent_color' );
-			self::hoffman_generate_css( '.comment-form input[type="submit"]:hover', 'background-color', 'accent_color' );
-			self::hoffman_generate_css( '.comment-form input[type="submit"]:hover', 'background-color', 'accent_color' );
-			self::hoffman_generate_css( '.archive-nav a', 'color', 'accent_color' );
-
-			self::hoffman_generate_css( '.tagcloud a:hover', 'background', 'accent_color' );
-			self::hoffman_generate_css( '.search-form .search-button:hover:before', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.widget_hoffman_recent_posts a:hover .title', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.hoffman-widget-list a:hover .title', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.hoffman-widget-list a:hover .title span', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.widget_hoffman_recent_posts a:hover .genericon', 'color', 'accent_color' );
-			self::hoffman_generate_css( '#wp-calendar thead', 'color', 'accent_color' );
-
-			self::hoffman_generate_css( '.credits-menu a', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.credits .menu-social a:hover', 'background', 'accent_color' );
-			self::hoffman_generate_css( '.credits p a:hover', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.nav-toggle.active p', 'color', 'accent_color' );
-			self::hoffman_generate_css( '.nav-toggle.active .bar', 'background', 'accent_color' );
-		echo '</style>';
-		echo '<!-- /Customizer CSS-->';
-	      
-   }
-   
-   public static function hoffman_live_preview() {
-      wp_enqueue_script( 'hoffman-themecustomizer', get_template_directory_uri() . '/js/theme-customizer.js', array(  'jquery', 'customize-preview' ), '', true );
-   }
-
-   public static function hoffman_generate_css( $selector, $style, $mod_name, $prefix='', $postfix='', $echo=true ) {
-      $return = '';
-      $mod = get_theme_mod($mod_name);
-      if ( ! empty( $mod ) ) {
-         $return = sprintf('%s { %s:%s; }', $selector, $style, $prefix . $mod . $postfix );
-         if ( $echo ) {
-            echo $return;
-         }
-      }
-      return $return;
-    }
-}
-
-// Setup the Theme Customizer settings and controls...
-add_action( 'customize_register', array( 'hoffman_customize', 'hoffman_register' ) );
-
-// Output custom CSS to live site
-add_action( 'wp_head', array( 'hoffman_customize', 'hoffman_header_output' ) );
-
-// Enqueue live preview javascript in Theme Customizer admin screen
-add_action( 'customize_preview_init', array( 'hoffman_customize', 'hoffman_live_preview' ) );
+endif;
 
 
 /* ---------------------------------------------------------------------------------------------
-   SPECIFY GUTENBERG SUPPORT
+   SPECIFY BLOCK EDITOR SUPPORT
 ------------------------------------------------------------------------------------------------ */
 
+if ( ! function_exists( 'hoffman_block_editor_features' ) ) :
+	function hoffman_block_editor_features() {
 
-if ( ! function_exists( 'hoffman_add_gutenberg_features' ) ) :
-
-	function hoffman_add_gutenberg_features() {
-
-		/* Gutenberg Features --------------------------------------- */
+		/* Block Editor Features ------------- */
 
 		add_theme_support( 'align-wide' );
 
-		/* Gutenberg Palette --------------------------------------- */
+		/* Block Editor Palette -------------- */
 
-		$accent_color = get_theme_mod( 'accent_color' ) ? get_theme_mod( 'accent_color' ) : '#928452';
+		$accent_color = get_theme_mod( 'accent_color', '#928452' );
 
 		add_theme_support( 'editor-color-palette', array(
 			array(
@@ -767,7 +595,7 @@ if ( ! function_exists( 'hoffman_add_gutenberg_features' ) ) :
 			array(
 				'name' 	=> _x( 'Light Gray', 'Name of the light gray color in the Gutenberg palette', 'hoffman' ),
 				'slug' 	=> 'light-gray',
-				'color' => '#999',
+				'color' => '#767676',
 			),
 			array(
 				'name' 	=> _x( 'White', 'Name of the white color in the Gutenberg palette', 'hoffman' ),
@@ -776,7 +604,7 @@ if ( ! function_exists( 'hoffman_add_gutenberg_features' ) ) :
 			),
 		) );
 
-		/* Gutenberg Font Sizes --------------------------------------- */
+		/* Block Editor Font Sizes ----------- */
 
 		add_theme_support( 'editor-font-sizes', array(
 			array(
@@ -789,7 +617,7 @@ if ( ! function_exists( 'hoffman_add_gutenberg_features' ) ) :
 				'name' 		=> _x( 'Regular', 'Name of the regular font size in Gutenberg', 'hoffman' ),
 				'shortName' => _x( 'M', 'Short name of the regular font size in the Gutenberg editor.', 'hoffman' ),
 				'size' 		=> 21,
-				'slug' 		=> 'regular',
+				'slug' 		=> 'normal',
 			),
 			array(
 				'name' 		=> _x( 'Large', 'Name of the large font size in Gutenberg', 'hoffman' ),
@@ -806,43 +634,33 @@ if ( ! function_exists( 'hoffman_add_gutenberg_features' ) ) :
 		) );
 
 	}
-	add_action( 'after_setup_theme', 'hoffman_add_gutenberg_features' );
-
+	add_action( 'after_setup_theme', 'hoffman_block_editor_features' );
 endif;
 
 
 /* ---------------------------------------------------------------------------------------------
-   GUTENBERG EDITOR STYLES
+   BLOCK EDITOR STYLES
    --------------------------------------------------------------------------------------------- */
 
-
 if ( ! function_exists( 'hoffman_block_editor_styles' ) ) :
-
 	function hoffman_block_editor_styles() {
 
 		$dependencies = array();
+		$theme_version = wp_get_theme( 'hoffman' )->get( 'Version' );
 
 		/**
 		 * Translators: If there are characters in your language that are not
 		 * supported by the theme fonts, translate this to 'off'. Do not translate
 		 * into your own language.
 		 */
-		$google_fonts = _x( 'on', 'Google Fonts: on or off', 'hoffman' );
-
-		if ( 'off' !== $google_fonts ) {
-
-			// Register Google Fonts
+		if ( 'off' !== _x( 'on', 'Google Fonts: on or off', 'hoffman' ) ) {
 			wp_register_style( 'hoffman-block-editor-styles-font', '//fonts.googleapis.com/css?family=Raleway:400,600,700,800|Vollkorn:400,400italic,700,700italic', false, 1.0, 'all' );
 			$dependencies[] = 'hoffman-block-editor-styles-font';
-
 		}
 
 		// Enqueue the editor styles
-		wp_enqueue_style( 'hoffman-block-editor-styles', get_theme_file_uri( '/hoffman-gutenberg-editor-style.css' ), $dependencies, '1.0', 'all' );
+		wp_enqueue_style( 'hoffman-block-editor-styles', get_theme_file_uri( '/assets/css/hoffman-block-editor-styles.css' ), $dependencies, $theme_version, 'all' );
 
 	}
 	add_action( 'enqueue_block_editor_assets', 'hoffman_block_editor_styles', 1 );
-
 endif;
-
-?>

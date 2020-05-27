@@ -8,14 +8,11 @@
 		
 			<?php 
 			$image_array = wp_get_attachment_image_src( $post->ID, 'full', false ); 
-			$url = $image_array['0']; 
 			?>
 			
-			<div class="featured-media">
-
-				<?php echo wp_get_attachment_image( $post->ID, 'post-image' ); ?>
-				
-			</div>
+			<figure class="featured-media">
+				<?php echo wp_get_attachment_image( $post->ID, 'post-thumbnail' ); ?>
+			</figure>
 			
 			<div class="post-inner section-inner thin">
 			
@@ -33,11 +30,11 @@
 				
 				<?php 
 
-				$image_caption = get_post( get_post_thumbnail_id() )->post_excerpt;
+				$image_caption = get_the_post_thumbnail_caption();
 				
 				if ( $image_caption ) : ?>
 													
-					<div class="post-content section-inner thin">
+					<div class="post-content entry-content section-inner thin">
 					
 						<p><?php echo $image_caption; ?></p>
 						

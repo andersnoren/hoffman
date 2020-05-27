@@ -18,29 +18,19 @@ jQuery(document).ready(function($) {
         smoothHeight: true   
     });
     
+	// Display dropdowns on focus
+	$( '.main-menu a' ).on( 'blur focus', function( e ) {
+		$( this ).parents( 'li.menu-item-has-children' ).toggleClass( 'focus' );
+	} );
     
     // Post meta tabs
-    $('.tab-selector a').click(function() {
-    	$('.tab-selector a').removeClass('active');
-		$('.post-meta-tabs .tab').hide(); 
+    $( '.tab-selector a' ).click( function() {
+		$( '.tab-selector a' ).removeClass( 'active' );
+		$( this ).addClass( 'active' );
+    	$( '.post-meta-tabs .tab' ).removeClass( 'active' );
+		$( '.post-meta-tabs ' + $( this ).attr( 'data-target' ) ).addClass( 'active' );
 		return false;
-    });
-    
-    $('.tab-selector .tab-comments').click(function() {
-    	$(this).addClass('active');
-		$('.post-meta-tabs .tab-comments').show(); 
-    });
-    
-    $('.tab-selector .tab-post-meta').click(function() {
-    	$(this).addClass('active');
-		$('.post-meta-tabs .tab-post-meta').show(); 
-    });
-    
-    $('.tab-selector .tab-author-meta').click(function() {
-    	$(this).addClass('active');
-		$('.post-meta-tabs .tab-author-meta').show(); 
-    });
-	
+    } );
 	
 	// Resize videos after container
 	var vidSelector = "iframe, object, video";	

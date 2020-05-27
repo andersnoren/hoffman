@@ -7,7 +7,7 @@
 
 @font-face {
 	font-family: "Genericons";
-	src: url("./font/Genericons.woff") format("woff");
+	src: url("../fonts/genericons/Genericons.woff") format("woff");
 	font-weight: normal;
 	font-style: normal;
 }
