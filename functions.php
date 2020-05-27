@@ -111,7 +111,7 @@ if ( ! function_exists( 'hoffman_load_style' ) ) :
 			$dependencies[] = 'hoffman_googleFonts';
 		}
 
-		wp_register_style( 'hoffman_genericons', get_template_directory_uri() . '/assets/css/genericons.css' );
+		wp_register_style( 'hoffman_genericons', get_template_directory_uri() . '/assets/css/genericons.min.css' );
 		$dependencies[] = 'hoffman_genericons';
 
 		wp_enqueue_style( 'hoffman_style', get_stylesheet_uri(), $dependencies, $theme_version );

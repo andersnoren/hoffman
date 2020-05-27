@@ -138,6 +138,7 @@ Version 2.0.0 (2020-05-26)
 - Set the tab in the top right to share background color with the background color set in the Customizer.
 - Updated the Customizer CSS targeting to account for updates to `style.css` and the template files.
 - Converted the screenshot to JPG format, reducing file size by ~300 KB.
+- Minified genericons.css (non-minified version is also included).
 
 Version 1.29 (2020-04-03)
 -------------------------
