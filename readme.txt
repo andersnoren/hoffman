@@ -71,6 +71,11 @@ Source: http://flexslider.woothemes.com
 
 == Changelog ==
 
+Version 2.0.1 (2020-09-28)
+-------------------------
+- Fixed the header being uneven when the social menu isn't set (thanks, @psheld).
+- Removed .map files to comply with new theme check requirements.
+
 Version 2.0.0 (2020-05-26)
 -------------------------
 - Moved CSS, JavaScript, images and fonts to the new `/assets/` folder.
