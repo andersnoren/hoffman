@@ -101,15 +101,8 @@ if ( ! function_exists( 'hoffman_load_style' ) ) :
 		$dependencies = array();
 		$theme_version = wp_get_theme( 'hoffman' )->get( 'Version' );
 
-		/**
-		 * Translators: If there are characters in your language that are not
-		 * supported by the theme fonts, translate this to 'off'. Do not translate
-		 * into your own language.
-		 */
-		if ( 'off' !== _x( 'on', 'Google Fonts: on or off', 'hoffman' ) ) {
-			wp_register_style( 'hoffman_googleFonts', '//fonts.googleapis.com/css?family=Raleway:400,600,700,800|Vollkorn:400,400italic,700,700italic' );
-			$dependencies[] = 'hoffman_googleFonts';
-		}
+		wp_register_style( 'hoffman_googleFonts', get_stylesheet_directory_uri() . '/assets/css/fonts.css' );
+		$dependencies[] = 'hoffman_googleFonts';
 
 		wp_register_style( 'hoffman_genericons', get_template_directory_uri() . '/assets/css/genericons.min.css' );
 		$dependencies[] = 'hoffman_genericons';
@@ -131,17 +124,7 @@ endif;
 if ( ! function_exists( 'hoffman_add_editor_styles' ) ) :
 	function hoffman_add_editor_styles() {
 
-		add_editor_style( 'assets/css/hoffman-editor-styles.css' );
-
-		/**
-		 * Translators: If there are characters in your language that are not
-		 * supported by the theme fonts, translate this to 'off'. Do not translate
-		 * into your own language.
-		 */
-		if ( 'off' !== _x( 'on', 'Google Fonts: on or off', 'hoffman' ) ) {
-			$font_url = '//fonts.googleapis.com/css?family=Raleway:400,600,700,800|Vollkorn:400,400italic,700,700italic';
-			add_editor_style( str_replace( ',', '%2C', $font_url ) );
-		}
+		add_editor_style( array( 'assets/css/hoffman-editor-styles.css', 'assets/css/fonts.css' ) );
 
 	}
 	add_action( 'init', 'hoffman_add_editor_styles' );
@@ -645,21 +628,10 @@ endif;
 if ( ! function_exists( 'hoffman_block_editor_styles' ) ) :
 	function hoffman_block_editor_styles() {
 
-		$dependencies = array();
 		$theme_version = wp_get_theme( 'hoffman' )->get( 'Version' );
 
-		/**
-		 * Translators: If there are characters in your language that are not
-		 * supported by the theme fonts, translate this to 'off'. Do not translate
-		 * into your own language.
-		 */
-		if ( 'off' !== _x( 'on', 'Google Fonts: on or off', 'hoffman' ) ) {
-			wp_register_style( 'hoffman-block-editor-styles-font', '//fonts.googleapis.com/css?family=Raleway:400,600,700,800|Vollkorn:400,400italic,700,700italic', false, 1.0, 'all' );
-			$dependencies[] = 'hoffman-block-editor-styles-font';
-		}
-
-		// Enqueue the editor styles
-		wp_enqueue_style( 'hoffman-block-editor-styles', get_theme_file_uri( '/assets/css/hoffman-block-editor-styles.css' ), $dependencies, $theme_version, 'all' );
+		wp_register_style( 'hoffman-block-editor-styles-font', get_stylesheet_directory_uri() . '/assets/css/fonts.css' );
+		wp_enqueue_style( 'hoffman-block-editor-styles', get_theme_file_uri( '/assets/css/hoffman-block-editor-styles.css' ), array( 'hoffman-block-editor-styles-font' ), $theme_version, 'all' );
 
 	}
 	add_action( 'enqueue_block_editor_assets', 'hoffman_block_editor_styles', 1 );

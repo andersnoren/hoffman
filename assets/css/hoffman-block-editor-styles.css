@@ -74,7 +74,7 @@
 	text-decoration: underline;
 }
 
-.editor-post-title__block .editor-post-title__input {
+.edit-post-visual-editor__post-title-wrapper .editor-post-title {
 	color: #222;
 	font-family: Raleway, sans-serif !important;
 	font-size: 45px;
