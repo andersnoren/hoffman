@@ -71,6 +71,10 @@ Source: http://flexslider.woothemes.com
 
 == Changelog ==
 
+Version 2.1.1 (2022-06-30)
+-------------------------
+- Fixed the screenshot.
+
 Version 2.1 (2022-06-29)
 -------------------------
 - Switched from the Google Fonts CDN to font files included in the theme folder.
