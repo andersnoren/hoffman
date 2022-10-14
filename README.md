@@ -2,7 +2,7 @@
 
 Hoffman is a beautifully minimal, responsive and retina-ready theme for bloggers. It features a social icon menu, Jetpack support for infinite scroll, Block Editor support, two custom widgets, a full-width template, an archive template, editor styles, custom accent color support, custom background support, support for the gallery post format, and much more.
 
-![Hoffman](https://github.com/andersnoren/hoffman/blob/main/screenshot.png)
+![Hoffman](https://github.com/andersnoren/hoffman/blob/master/screenshot.jpg)
 
 You can download the latest stable release of Hoffman [from WordPress.org](https://wordpress.org/themes/hoffman/).
 
